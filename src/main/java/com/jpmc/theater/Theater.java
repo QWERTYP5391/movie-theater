@@ -10,9 +10,10 @@ public class Theater {
 
     LocalDateProvider provider;
     private List<Showing> schedule;
-
+    private List<Discount> listOfTheaterDiscounts;
     public Theater(LocalDateProvider provider) {
         this.provider = provider;
+        this.listOfTheaterDiscounts = List.of(new SpecialMovieDiscount());
 
         Movie spiderMan = new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5, 1);
         Movie turningRed = new Movie("Turning Red", Duration.ofMinutes(85), 11, 0);
@@ -38,7 +39,7 @@ public class Theater {
             ex.printStackTrace();
             throw new IllegalStateException("not able to find any showing for given sequence " + sequence);
         }
-        return new Reservation(customer, showing, howManyTickets);
+        return new Reservation(customer, showing, howManyTickets, listOfTheaterDiscounts);
     }
 
     public void printSchedule() {

@@ -8,11 +8,11 @@ public class Reservation {
     private int audienceCount;
     private List<Discount> listOfDiscounts;
 
-    public Reservation(Customer customer, Showing showing, int audienceCount) {
+    public Reservation(Customer customer, Showing showing, int audienceCount, List<Discount> listOfDiscounts) {
         this.customer = customer;
         this.showing = showing;
         this.audienceCount = audienceCount;
-        this.listOfDiscounts = List.of(new SpecialMovieDiscount());
+        this.listOfDiscounts = listOfDiscounts;
     }
 
     public double totalFee() {
