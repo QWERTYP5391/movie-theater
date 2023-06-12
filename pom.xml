@@ -23,6 +23,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<gson.version>2.10.1</gson.version>
 		<maven.comiler.source>${java.version}</maven.comiler.source>
 		<maven.comiler.target>${java.version}</maven.comiler.target>
 		<junit.jupiter.version>5.3.2</junit.jupiter.version>
@@ -30,6 +31,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>

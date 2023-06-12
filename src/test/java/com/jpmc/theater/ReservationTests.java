@@ -4,34 +4,34 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
-import static com.jpmc.theater.TestConstants.TICKET_PRICE;
+import static com.jpmc.theater.CustomerConstants.TEST_CUSTOMER_ID;
+import static com.jpmc.theater.CustomerConstants.TEST_CUSTOMER_NAME;
+import static com.jpmc.theater.MovieConstants.TEST_TICKET_PRICE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReservationTests {
 
-    public static final String TEST_CUSTOMER_NAME = "John Doe";
-    public static final String TEST_CUSTOMER_ID = "unused-id";
     public static final int TEST_AUDIENCE_COUNT = 3;
 
     @Test
-    void totalFee() {
+    void testTotalFee() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 1,
                 LocalDateTime.now()
         );
-//        assertEquals(37.5, new Reservation(customer, showing, 3).totalFee());
+        assertEquals(37.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, Collections.emptyList()).totalFee());
     }
 
     @Test
     void testTotalFeeWithSpecialMovieDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 1,
                 LocalDateTime.now()
         );
@@ -43,7 +43,7 @@ public class ReservationTests {
     void testTotalFeeWith1stOfTheDayDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 1,
                 LocalDateTime.now()
         );
@@ -55,7 +55,7 @@ public class ReservationTests {
     void testTotalFeeWith2ndOfTheDayDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 2,
                 LocalDateTime.now()
         );
@@ -67,7 +67,7 @@ public class ReservationTests {
     void testTotalFeeWithBetween11AMAnd4PMDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 2,
                 LocalDate.now().atTime(11, 0)
         );
@@ -79,12 +79,12 @@ public class ReservationTests {
     void testTotalFeeWithOn7thDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
-                new Movie(TestConstants.MOVIE_TITLE, TestConstants.MOVIE_RUNNING_TIME, TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
                 2,
                 LocalDateTime.of(LocalDate.now().getYear(), LocalDateTime.now().getMonth(), 7, 0, 0));
 
 
-        assertEquals(34.5, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount())).totalFee());
+        assertEquals(34.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount())).totalFee());
     }
 }
 
