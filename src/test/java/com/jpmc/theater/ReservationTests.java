@@ -52,6 +52,18 @@ public class ReservationTests {
     }
 
     @Test
+    void testTotalFeeWith1stOfTheDayDiscountAndSpecialMovieDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                1,
+                LocalDateTime.now()
+        );
+
+        assertEquals(28.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new FirstOfDayDiscount(), new SpecialMovieDiscount())).totalFee());
+    }
+
+    @Test
     void testTotalFeeWith2ndOfTheDayDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
@@ -61,6 +73,18 @@ public class ReservationTests {
         );
 
         assertEquals(31.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new SecondOfDayDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWith2ndOfTheDayDiscountAndSpecialMovieDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                2,
+                LocalDateTime.now()
+        );
+
+        assertEquals(30.0D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new SecondOfDayDiscount(), new SpecialMovieDiscount())).totalFee());
     }
 
     @Test
@@ -76,6 +100,42 @@ public class ReservationTests {
     }
 
     @Test
+    void testTotalFeeWithBetween11AMAnd4PMDiscountAnd1stOfDayDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                1,
+                LocalDate.now().atTime(11, 0)
+        );
+
+        assertEquals(28.125D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new TimeOfDayDiscount(), new FirstOfDayDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWithBetween11AMAnd4PMDiscountAnd2ndOfDayDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                2,
+                LocalDate.now().atTime(11, 0)
+        );
+
+        assertEquals(28.125D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new TimeOfDayDiscount(), new FirstOfDayDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWithBetween11AMAnd4PMDiscountAndSpecialMovieDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                2,
+                LocalDate.now().atTime(11, 0)
+        );
+
+        assertEquals(28.125D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new TimeOfDayDiscount(), new SpecialMovieDiscount())).totalFee());
+    }
+
+    @Test
     void testTotalFeeWithOn7thDiscount() {
         var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
         var showing = new Showing(
@@ -85,6 +145,42 @@ public class ReservationTests {
 
 
         assertEquals(34.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWithOn7thDiscountAndAnd1stOfDayDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                1,
+                LocalDateTime.of(LocalDate.now().getYear(), LocalDateTime.now().getMonth(), 7, 11, 1));
+
+
+        assertEquals(28.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount(), new FirstOfDayDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWithOn7thDiscountAndAnd2ndOfDayDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                2,
+                LocalDateTime.of(LocalDate.now().getYear(), LocalDateTime.now().getMonth(), 7, 11, 1));
+
+
+        assertEquals(31.5D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount(), new SecondOfDayDiscount())).totalFee());
+    }
+
+    @Test
+    void testTotalFeeWithOn7thDiscountAndSpecialMovieDiscount() {
+        var customer = new Customer(TEST_CUSTOMER_NAME, TEST_CUSTOMER_ID);
+        var showing = new Showing(
+                new Movie(MovieConstants.TEST_MOVIE_TITLE, MovieConstants.TEST_MOVIE_RUNNING_TIME, TEST_TICKET_PRICE, Movie.MOVIE_CODE_SPECIAL),
+                2,
+                LocalDateTime.of(LocalDate.now().getYear(), LocalDateTime.now().getMonth(), 7, 0, 0));
+
+
+        assertEquals(30.0D, new Reservation(customer, showing, TEST_AUDIENCE_COUNT, List.of(new DayOfMonthDiscount(), new SpecialMovieDiscount())).totalFee());
     }
 }
 
